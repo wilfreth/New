@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pathway+Gothic+One&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="preload" href="/img/hero.avif" as="image" type="image/avif">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>
   :root{
     --wine-1:#9a3a46; --wine-2:#7f2632; --wine-3:#5e1c25; --wine-4:#3a0f16;
@@ -447,7 +448,7 @@
   </div>
 </main>
 
-<audio id="song" src="/audio/evermore.mp3" preload="auto" loop playsinline></audio>
+<audio id="song" src="https://cdn.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3" preload="auto" loop playsinline></audio>
 <button class="mini" id="mini" type="button" aria-label="Pausar o reproducir la música">
   <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13L19 12z"/></svg>
   <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
@@ -493,7 +494,10 @@
     const $ = id => document.getElementById(id);
     const a = $('song'), box = $('player'), btn = $('pPlay'), bar = $('pBar'), fill = $('pFill'), knob = $('pKnob'),
           cur = $('pCur'), dur = $('pDur'), loopB = $('pLoop'), heart = $('pHeart'), mini = $('mini');
-    const SRC = '/audio/evermore.mp3';
+    // Fuentes de la canción en orden; si una falla se pasa a la siguiente sin mostrar nada
+    const SRCS = ['https://cdn.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
+                  'https://fastly.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
+                  'https://raw.githubusercontent.com/wilfreth/New/580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3'];
     let userPaused = false, started = false, dragging = false, playerVisible = true, resumeOnShow = false, errors = 0;
     a.volume = .8; a.loop = true;
     const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
@@ -538,7 +542,7 @@
     a.addEventListener('error', () => {
       errors++; const t = a.currentTime || 0, wasOn = started && !userPaused;
       setTimeout(() => {
-        a.src = SRC + '?r=' + Date.now(); a.load();
+        a.src = SRCS[errors % SRCS.length] + (errors >= SRCS.length ? '?r=' + Date.now() : ''); a.load();
         a.addEventListener('loadedmetadata', () => { try { a.currentTime = t; } catch(e){} }, { once: true });
         if (wasOn) a.play().catch(() => armRetry());
       }, Math.min(8000, 800 * errors));
