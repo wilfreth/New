@@ -498,7 +498,7 @@
     const SRCS = ['https://cdn.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
                   'https://fastly.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
                   'https://raw.githubusercontent.com/wilfreth/New/580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3'];
-    let userPaused = false, started = false, dragging = false, playerVisible = true, resumeOnShow = false, errors = 0;
+    let userPaused = false, wantPlay = false, started = false, dragging = false, playerVisible = true, resumeOnShow = false, errors = 0;
     a.volume = .8; a.loop = true;
     const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
     const D = () => (isFinite(a.duration) && a.duration > 0) ? a.duration : 0;
@@ -526,11 +526,11 @@
       document.addEventListener('pointerdown', once, true);
     }
     function play(){
-      userPaused = false;
+      userPaused = false; wantPlay = true;
       const p = a.play();
       if (p && p.catch) p.catch(() => armRetry());
     }
-    function pause(){ userPaused = true; a.pause(); }
+    function pause(){ userPaused = true; wantPlay = false; a.pause(); }
     function toggle(){ a.paused ? play() : pause(); }
 
     a.addEventListener('playing', () => { started = true; errors = 0; btn.classList.remove('loading'); setPlaying(true); });
@@ -540,7 +540,7 @@
     ['timeupdate', 'loadedmetadata', 'durationchange'].forEach(ev => a.addEventListener(ev, tick));
     // Reintento silencioso si el archivo falla al cargar
     a.addEventListener('error', () => {
-      errors++; const t = a.currentTime || 0, wasOn = started && !userPaused;
+      errors++; const t = a.currentTime || 0, wasOn = wantPlay && !userPaused;
       setTimeout(() => {
         a.src = SRCS[errors % SRCS.length] + (errors >= SRCS.length ? '?r=' + Date.now() : ''); a.load();
         a.addEventListener('loadedmetadata', () => { try { a.currentTime = t; } catch(e){} }, { once: true });
