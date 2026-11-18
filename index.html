@@ -307,7 +307,7 @@
           <div class="p-bar" id="pBar" role="slider" tabindex="0" aria-label="Posición de la canción" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <span class="p-fill" id="pFill"></span><span class="p-knob" id="pKnob"></span>
           </div>
-          <div class="p-times"><span id="pCur">0:00</span><span id="pDur">4:15</span></div>
+          <div class="p-times"><span id="pCur">0:00</span><span id="pDur">3:28</span></div>
           <div class="p-ctrls">
             <button class="p-btn sm" id="pLoop" type="button" aria-label="Repetir canción" aria-pressed="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 013-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 01-3 3H3"/></svg>
@@ -448,7 +448,7 @@
   </div>
 </main>
 
-<audio id="song" src="https://cdn.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3" preload="auto" loop playsinline></audio>
+<audio id="song" src="https://cdn.jsdelivr.net/gh/wilfreth/New@04b9b1567d7df0c075e080bcade4060c671b225f/audio/evermore.mp3" preload="auto" loop playsinline></audio>
 <button class="mini" id="mini" type="button" aria-label="Pausar o reproducir la música">
   <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13L19 12z"/></svg>
   <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
@@ -495,9 +495,9 @@
     const a = $('song'), box = $('player'), btn = $('pPlay'), bar = $('pBar'), fill = $('pFill'), knob = $('pKnob'),
           cur = $('pCur'), dur = $('pDur'), loopB = $('pLoop'), heart = $('pHeart'), mini = $('mini');
     // Fuentes de la canción en orden; si una falla se pasa a la siguiente sin mostrar nada
-    const SRCS = ['https://cdn.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
-                  'https://fastly.jsdelivr.net/gh/wilfreth/New@580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3',
-                  'https://raw.githubusercontent.com/wilfreth/New/580b4c89024779847a80be96c32144f132c9df21/audio/evermore.mp3'];
+    const SRCS = ['https://cdn.jsdelivr.net/gh/wilfreth/New@04b9b1567d7df0c075e080bcade4060c671b225f/audio/evermore.mp3',
+                  'https://fastly.jsdelivr.net/gh/wilfreth/New@04b9b1567d7df0c075e080bcade4060c671b225f/audio/evermore.mp3',
+                  'https://raw.githubusercontent.com/wilfreth/New/04b9b1567d7df0c075e080bcade4060c671b225f/audio/evermore.mp3'];
     let userPaused = false, wantPlay = false, started = false, dragging = false, playerVisible = true, resumeOnShow = false, errors = 0;
     a.volume = .8; a.loop = true;
     const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
